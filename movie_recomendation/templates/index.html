@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<head>
+  <title>Movie Recommender - MANIKANDAN P</title>
+<!--  Css style -->
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 100%;
+    background-color: #B6F3E4;
+  line-height: 1.5;
+  color: #000;
+  text-transform: capitalize;
+  background-image:url('https://th.bing.com/th/id/OIP.cA-uuEQHlttBwMWewAbx1QHaEK?w=268&h=180&c=7&r=0&o=5&pid=1.7');
+  /* background-image: url('/temp_image/OIP.jpg'); */
+  background-repeat: repeat;
+  background-attachment: fixed;
+  /* background-size: cover; */
+}
+
+h2{
+  color: rgb(27, 245, 45);
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+figure {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+    .movie{
+        height: 65vh;
+        margin-top: 15vh;
+        margin-bottom: 15vh;
+        margin-right: 5vh;
+        margin-left: 5vh;
+        display: block;
+        background-color: rgba(88, 138, 134, 0.671);
+        border-radius: 10px;
+        
+        padding: 1em;
+        width: auto;
+        box-shadow: 0px 0px 10px -4px grey;
+        text-align: center;
+    }
+    #movie_name{
+        width: 70%;
+        padding: 1em;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid rgb(235, 233, 233);
+        background-color: rgba(208, 228, 29, 0.74);
+    }
+    #submission_button{
+        width: 25%;
+        padding: 1em;
+        margin: 1em;
+        border-radius: 5px;
+        color: white;
+        background-color:rgb(30, 191, 255);
+        border-style: none;
+    }
+    /* @media screen and (max-width:600px) {
+        .movie{
+            margin-top: 12vh;
+            margin-bottom: 12vh;
+        }
+} */
+
+
+</style>
+</head>
+<body>
+<div class="movie">
+        <h2><u>Movie Recommendation System</u></h2>
+        <form action="{{ url_for('main') }}" method="POST">
+            <input type="text" id="movie_name" name="movie_name" placeholder="Enter a full movie name" required />
+            <input type="submit" id="submission_button" value="Submit"/>
+        </form>
+        <p style="color: #23f0e5fb; padding: 1em;">The model uses <b>Content Based Recommendations</b> to find similar movies. Intuitive idea behind is <i>"If a person likes a particular item, he/she will also like an item that is similar to it."</i> The dataset is taken from <b>Kaggle.com.</b></p>
+        <br>
+  </div>
+<script>
+
+// Inits
+$(() => {
+  // Spanize
+  const span = $('.js-span');
+  let $ele, words;
+
+  for (let i = 0; i < span.length; i++) {
+    $ele = $(span).eq(i);
+    words = $ele.html();
+
+    $ele.html(words.replace(/([A-z0-9'@+-<>.,'"“”‘’?!*&/]+)/g, '<span>$&</span>'));
+  }
+
+  Menu.init();
+});
+</script>
+
+</body>
+</html>

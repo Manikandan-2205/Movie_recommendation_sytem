@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Movie Recommender - MANIKANDAN P</title>
+<style>
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 100%;
+  background-image: url('https://th.bing.com/th/id/OIP.E-8zeJPVFD1eCfHkLyX-PgHaEK?w=319&h=180&c=7&r=0&o=5&pid=1.7');
+  line-height: 1.5;
+  color: #000;
+}
+
+tr,th{
+  background-color: rgba(87, 192, 77, 0.973);
+}
+td{
+  background-color: papayawhip;
+}
+
+a {
+  text-decoration: none;
+  
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+figure {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+h2{
+  color: ghostwhite;
+}
+
+p{
+  color: yellow;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -9;
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+}
+@media (min-width: 54rem) {
+  .menu {
+    min-height: 40em;
+  }
+}
+
+    .movie{
+        height: 110vh;
+        margin-top: 15vh;
+        margin-bottom: 15vh;
+        margin-right: 50vh;
+        margin-left: 50vh;
+        display: block;
+        background-color: rgba(22, 241, 231, 0.651);
+        border-radius: 20px;
+        padding: 1em;
+        width: auto;
+        box-shadow: 0px -10px 20px -5px #E2E2E2;
+        text-align: center;
+    }
+
+    @media screen and (max-width:600px) {
+        .movie{
+            margin-top: 12vh;
+            margin-bottom: 12vh;
+        }
+}
+    table,tr,td,th{
+        border: 1px solid hsl(56, 94%, 57%);
+        border-collapse: collapse;
+    }
+    td{
+      padding: 10px;
+    }
+input{
+  background-position: 4 svh;
+  background-color: lightgrey;
+  border-inline-color: red;
+}
+</style>
+</head>
+<body>
+
+<div class="movie">
+        <h2><u>Movie Recommendation System</u></h2>
+        <form action="{{ url_for('main') }}" method="POST">
+            <input type="text" id="movie_name" name="movie_name" placeholder="Enter a full movie name" required />
+            <input type="submit" id="submission_button" value="Submit"/>
+        </form>
+
+        <h2><u>Recommendations:</u></h2>
+        <p>Showing results for:<b>{{ search_name }} </b></p>
+        <table class="movie_table" align="center">
+            <tr>
+                <th>Movie Title</th>
+                <th>Release Date</th>
+            </tr>
+            <tbody class="table_body">
+                <tr>
+                    <td>{{ movie_names[0] }}</td>
+                    <td>{{ movie_date[0] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[1] }}</td>
+                    <td>{{ movie_date[1] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[2] }}</td>
+                    <td>{{ movie_date[2] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[3] }}</td>
+                    <td>{{ movie_date[3] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[4] }}</td>
+                    <td>{{ movie_date[4] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[5] }}</td>
+                    <td>{{ movie_date[5] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[6] }}</td>
+                    <td>{{ movie_date[6] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[7] }}</td>
+                    <td>{{ movie_date[7] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[8] }}</td>
+                    <td>{{ movie_date[8] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ movie_names[9] }}</td>
+                    <td>{{ movie_date[9] }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+       
+<script>
+
+
+// Menu
+const Menu = (() => {
+  let s;
+
+  return {
+    settings() {
+      return {
+        body: $('body'),
+        hamburger: $('.hamburger'),
+        open: 'js-menu-open',
+        visible: 'js-menu-visible',
+        overflow: 'js-overflow',
+        width: $(window).width(),
+        prevWidth: $(window).width() };
+
+    },
+
+    init() {
+      s = this.settings();
+      this.bindEvents();
+    },
+
+    bindEvents() {
+      let menuContainerWidth;
+
+      if (s.width < 864) {
+        menuContainerWidth = 100;
+      } else if (s.width < 1456) {
+        menuContainerWidth = 50;
+      } else {
+        menuContainerWidth = 45;
+      }
+
+      $(window).on('resize', () => {
+        s.width = $(window).width();
+
+        if (s.width < 864) {
+          menuContainerWidth = 100;
+        } else if (s.width < 1456) {
+          menuContainerWidth = 50;
+        } else {
+          menuContainerWidth = 45;
+        }
+      });
+
+      
+    } };
+
+})();
+
+// Inits
+$(() => {
+  // Spanize
+  const span = $('.js-span');
+  let $ele, words;
+
+  for (let i = 0; i < span.length; i++) {
+    $ele = $(span).eq(i);
+    words = $ele.html();
+
+    $ele.html(words.replace(/([A-z0-9'@+-<>.,'"“”‘’?!*&/]+)/g, '<span>$&</span>'));
+  }
+
+  Menu.init();
+});
+</script>
+
+</body>
+</html>
